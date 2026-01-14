@@ -38,8 +38,8 @@ export const App = () => {
   });
 
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
-  const hendleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+  const hendleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
 
     const cleanedValue = value.replace(/[^a-zA-Zа-яА-ЯіІїЇєЄґҐ0-9 ]/g, '');
 
@@ -47,20 +47,20 @@ export const App = () => {
     setErrorTitle(false);
   };
 
-  const hendleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(+e.target.value);
+  const hendleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(+event.target.value);
     setErrorUser(false);
   };
 
-  const hendleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const hendleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     const trimmedTitle = title.trim();
 
-    setErrorTitle(!title.trim());
+    setErrorTitle(!trimmedTitle);
     setErrorUser(!user);
 
-    if (!title || !user) {
+    if (!trimmedTitle || !user) {
       return;
     }
 
