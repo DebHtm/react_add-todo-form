@@ -25,7 +25,9 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState(0);
   const preparedTodos: Todo[] = todosFromServer.map(todo => {
-    const foundUser = usersFromServer.find(u => u.id === todo.userId);
+    const foundUser = usersFromServer.find(
+      founduser => founduser.id === todo.userId,
+    );
 
     if (!foundUser) {
       throw new Error('User not found');
@@ -38,7 +40,7 @@ export const App = () => {
   });
 
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
-  const hendleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
     const cleanedValue = value.replace(/[^a-zA-Zа-яА-ЯіІїЇєЄґҐ0-9 ]/g, '');
@@ -47,12 +49,12 @@ export const App = () => {
     setErrorTitle(false);
   };
 
-  const hendleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUser(+event.target.value);
     setErrorUser(false);
   };
 
-  const hendleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const trimmedTitle = title.trim();
@@ -64,14 +66,16 @@ export const App = () => {
       return;
     }
 
-    const selectedUser = usersFromServer.find(u => u.id === user);
+    const selectedUser = usersFromServer.find(
+      selecteduser => selecteduser.id === user,
+    );
 
     if (!selectedUser) {
       return;
     }
 
     const newTodo = {
-      id: Math.max(...todos.map(t => t.id)) + 1,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title: trimmedTitle,
       userId: user,
       completed: false,
@@ -88,7 +92,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={hendleSubmit}>
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <label className="lable" htmlFor="post-title">
           Title:
         </label>
@@ -99,7 +103,7 @@ export const App = () => {
             placeholder="Enter a title"
             data-cy="titleInput"
             value={title}
-            onChange={hendleTitleChange}
+            onChange={handleTitleChange}
           />
 
           {errorTitle && <span className="error">Please enter a title</span>}
@@ -113,7 +117,7 @@ export const App = () => {
             data-cy="userSelect"
             id="post-user"
             value={user}
-            onChange={hendleUserChange}
+            onChange={handleUserChange}
           >
             <option value={0} disabled>
               Choose a user
